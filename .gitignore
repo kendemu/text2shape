@@ -1,3 +1,6 @@
 text2shape-data
 outputs/shapenet/encoder_logdir
+outputs/shapenet/cwgan_logdir
 outputs/primitives/encoder_logdir
+outputs/shapenet/cwgan_logdir
+sstk/

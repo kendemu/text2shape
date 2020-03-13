@@ -10,18 +10,25 @@
 # 500. If the directory contains 1000, 2500, 5000, this script will choose model 5000.
 
 set -e
-export TOOLKIT_PATH=C:\Users\kohei\minerva_ai\sstk
+export TOOLKIT_PATH=sstk
 
 # Make sure there are two arguments
-if [ "$#" -ne 2 ]; then
-    echo "Illegal number of parameters"
-    exit 1
-fi
+#if [ "$#" -ne 2 ]; then
+#    echo "Illegal number of parameters"
+#    exit 1
+#fi
 
 
 # #
 # # Setup
 # #
+
+PYTHON_VAR="python"
+
+if grep -q Microsoft /proc/version; then
+  PYTHON_VAR="python.exe"
+  echo "WSL environment, enabling python.exe"
+fi
 
 echo "--- SETUP ---"
 
@@ -38,10 +45,11 @@ log_path=$2
 # #
 
 # Remove .index portion of string
-ckpt_path=$(find $log_path -maxdepth 1 -name 'model.ckpt-*.index' | sort | tail -n1)
-ckpt_path=${ckpt_path/.index/}
+ckpt_path="outputs/shapenet/cwgan_logdir/2020-03-03_11-26-41/model.ckpt-67500"
+#$(find $log_path -maxdepth 1 -name 'model.ckpt-*.index' | sort | tail -n1)
+#ckpt_path=${ckpt_path/.index/}
 
-test_command="python main.py --model $1 --test --val_split test --save_outputs --n_minibatch_test 200 --log_path $log_path --ckpt_path $ckpt_path --debug --noise_size 8 --uniform_max 0.5 --dataset shapenet"
+test_command="$PYTHON_VAR main.py --model $1 --test --val_split test --save_outputs --n_minibatch_test 200 --log_path $log_path --ckpt_path $ckpt_path --debug --noise_size 8 --uniform_max 0.5 --dataset shapenet"
 echo "Executing:" $test_command
 eval $test_command
 echo ""
@@ -51,12 +59,14 @@ echo ""
 # # Create NRRD files
 # #
 
+
+
 echo "--- NRRD GENERATION ---"
 
 render_dir=$(basename $ckpt_path)
 render_dir=${render_dir/model./}
 render_dir=$log_path/$render_dir
-gen_nrrd_command="python -m tools.scripts.generate_nrrd $render_dir"
+gen_nrrd_command="$PYTHON_VAR -m tools.scripts.generate_nrrd $render_dir"
 
 echo "Executing:" $gen_nrrd_command
 eval $gen_nrrd_command

@@ -44,7 +44,7 @@ __C.DIR = edict()
 # Path where taxonomy.json is stored
 __C.DIR.RGB_VOXEL_PATH = r'C:\Users\kohei\minerva_ai\text2shape\text2shape-data\shapenet\nrrd_256_filter_div_32_solid\%s\%s.nrrd'  # TODO: Modify this
 __C.DIR.LOG_PATH = './output/default'
-__C.DIR.CKPT_PATH = None
+__C.DIR.CKPT_PATH = r'C:\Users\kohei\minerva_ai\text2shape\outputs\shapenet\cwgan_logdir\2020-03-03_11-26-41\model.ckpt-67500'
 __C.DIR.VAL_CKPT_PATH = None
 __C.DIR.DATA_PATH = r'C:\Users\kohei\minerva_ai\text2shape\text2shape-data'
 __C.DIR.SHAPENET_DATA_PATH = os.path.join(__C.DIR.DATA_PATH, 'shapenet')
